@@ -1,0 +1,24 @@
+{
+  "name": "pdf-manipulator",
+  "version": "0.1.0",
+  "description": "Simple app to convert and merge images / pdf files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stveritier/pdf-manipulator.git"
+  },
+  "keywords": [
+    "pdf",
+    "merge",
+    "converter"
+  ],
+  "author": "Santiago Veritier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stveritier/pdf-manipulator/issues"
+  },
+  "homepage": "https://github.com/stveritier/pdf-manipulator#readme"
+}
