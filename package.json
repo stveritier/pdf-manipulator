@@ -8,14 +8,19 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
+  "electronWebpack": {
+    "renderer": {
+      "webpackConfig": "./config/webpack.renderer.additions.js"
+    }
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "file-type": "^16.0.1",
     "moment": "^2.29.1",
     "pdf-lib": "^1.11.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "prop-types": "15.6.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "sharp": "^0.26.2",
     "source-map-support": "^0.5.16",
     "uuid": "^8.3.1"
@@ -24,6 +29,7 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
+    "@types/anymatch": "^1.3.1",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
