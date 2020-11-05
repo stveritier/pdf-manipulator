@@ -1,6 +1,6 @@
 import React from 'react';
-import { Header } from '../Header';
-import { FileSelectionForm } from '../FileSelectionForm';
+import { Header } from '../../features/components/Header';
+import { FileSelectionForm } from '../../features/components/FileSelectionForm';
 
 const MainPage = (): JSX.Element => {
   return (

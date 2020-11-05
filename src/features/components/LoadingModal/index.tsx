@@ -1,5 +1,5 @@
 import React from 'react';
-import loaderGif from '../img/three-dots.svg';
+import loaderGif from '../../../resources/img/three-dots.svg';
 
 interface LoadingModalProps {
   showLoadingModal: boolean;

@@ -5,18 +5,18 @@ import { readdirSync } from 'fs';
 import { remote } from 'electron';
 import { SelectedFilesList } from '../SelectedFileList';
 import { LoadingModal } from '../LoadingModal';
-import mergePDF from '../../utils/PDFProcessor';
-import { saveDocToDisk } from '../../utils/saveDocToDisk';
+import PDFController from '../../../utils/pdf-controller';
+import DataController from '../../../utils/data-controller';
 
 const filters = [
   { name: 'Archivos', extensions: ['jpg', 'jpeg', 'png', 'pdf'] },
 ];
 
 const FileSelectionForm = (): JSX.Element => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [outputPath, setOutputPath] = useState(homedir());
-  const [fileName, setFileName] = useState('archivo-final.pdf');
-  const [showLoadingModal, setShowLoadingModal] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [outputPath, setOutputPath] = useState<string>(homedir());
+  const [fileName] = useState<string>('archivo-final.pdf');
+  const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false);
 
   const handleClearSelection = () => {
     setSelectedFiles([]);
@@ -78,10 +78,17 @@ const FileSelectionForm = (): JSX.Element => {
   const handleFileMerge = async () => {
     setShowLoadingModal(true);
     try {
-      const mergedPDFBytes = await mergePDF(selectedFiles);
-      await saveDocToDisk(outputPath, fileName, mergedPDFBytes);
-      setSelectedFiles([]);
-      setShowLoadingModal(false);
+      const pdfController = PDFController.Instance;
+      const mergedPDFBytes = await pdfController.mergePDF(selectedFiles);
+      if (!(mergedPDFBytes instanceof Error)) {
+        await DataController.saveFileToDisk(
+          outputPath,
+          fileName,
+          mergedPDFBytes
+        );
+        setSelectedFiles([]);
+        setShowLoadingModal(false);
+      }
     } catch (error) {
       setShowLoadingModal(false);
     }
