@@ -1,24 +1,66 @@
 {
   "name": "pdf-manipulator",
   "version": "0.1.0",
-  "description": "Simple app to convert and merge images / pdf files.",
-  "main": "index.js",
+  "license": "MIT",
+  "build": {
+    "appId": "pdf-manipulator",
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stveritier/pdf-manipulator.git"
+  "electronWebpack": {
+    "renderer": {
+      "webpackConfig": "./config/webpack.renderer.additions.js"
+    }
   },
-  "keywords": [
-    "pdf",
-    "merge",
-    "converter"
-  ],
-  "author": "Santiago Veritier",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/stveritier/pdf-manipulator/issues"
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "moment": "^2.29.1",
+    "pdf-lib": "^1.11.2",
+    "prop-types": "15.6.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "react-toastify": "^6.1.0",
+    "sharp": "^0.26.2",
+    "source-map-support": "^0.5.16",
+    "uuid": "^8.3.1"
   },
-  "homepage": "https://github.com/stveritier/pdf-manipulator#readme"
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "@types/anymatch": "^1.3.1",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/sharp": "^0.26.0",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "electron": "8.2.0",
+    "electron-builder": "^22.4.1",
+    "electron-webpack": "^2.8.2",
+    "electron-webpack-ts": "^4.0.1",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "typescript": "^3.8.3",
+    "webpack": "~4.42.1"
+  }
 }
