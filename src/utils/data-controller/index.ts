@@ -17,7 +17,7 @@ abstract class DataController {
     try {
       await fs.writeFile(fullPath, data);
       return true;
-    } catch (error: unknown) {
+    } catch (e) {
       return false;
     }
   };
