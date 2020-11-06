@@ -108,12 +108,8 @@ const FileSelectionForm = (): JSX.Element => {
       } else {
         throw mergedPDFBytes;
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
+    } catch (e) {
       setLoading(false);
-
       notifyResult(false);
     }
   };

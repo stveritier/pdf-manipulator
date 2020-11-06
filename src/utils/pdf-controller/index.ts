@@ -96,9 +96,7 @@ class PDFController {
       );
 
       const pdfDocumentsArray = await Promise.all(
-        pdfBytesArray.map((pdfBytes) =>
-          PDFDocument.load(pdfBytes, { ignoreEncryption: true })
-        )
+        pdfBytesArray.map((pdfBytes) => PDFDocument.load(pdfBytes))
       );
 
       return pdfDocumentsArray;
