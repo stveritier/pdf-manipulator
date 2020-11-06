@@ -2,6 +2,14 @@
   "name": "pdf-manipulator",
   "version": "0.1.0",
   "license": "MIT",
+  "build": {
+    "appId": "pdf-manipulator",
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  },
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
