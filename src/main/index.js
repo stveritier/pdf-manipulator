@@ -35,6 +35,10 @@ function createMainWindow() {
     );
   }
 
+  window.on('will-resize', (e) => {
+    e.preventDefault();
+  });
+
   window.on('closed', () => {
     mainWindow = null;
   });

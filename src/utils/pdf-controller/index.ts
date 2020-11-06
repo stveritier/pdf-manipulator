@@ -9,7 +9,7 @@ class PDFController {
   private static instance: PDFController;
 
   private constructor() {
-    throw Error('This is a singleton class. Please use the Instance method.');
+    // I have to type something here for some reason.
   }
 
   public static get Instance(): PDFController {
@@ -96,7 +96,9 @@ class PDFController {
       );
 
       const pdfDocumentsArray = await Promise.all(
-        pdfBytesArray.map((pdfBytes) => PDFDocument.load(pdfBytes))
+        pdfBytesArray.map((pdfBytes) =>
+          PDFDocument.load(pdfBytes, { ignoreEncryption: true })
+        )
       );
 
       return pdfDocumentsArray;

@@ -7,6 +7,7 @@ import {
   Typography,
   TextField,
 } from '@material-ui/core';
+import { toast } from 'react-toastify';
 import { homedir } from 'os';
 import { readdirSync } from 'fs';
 import { remote } from 'electron';
@@ -24,6 +25,14 @@ const FileSelectionForm = (): JSX.Element => {
   const filters = [
     { name: 'Archivos', extensions: ['jpg', 'jpeg', 'png', 'pdf'] },
   ];
+
+  const notifyResult = (success: boolean) => {
+    if (success) {
+      return toast.success('El archivo fue creado correctamente.');
+    }
+
+    return toast.error('Hubo un problema creando el archivo.');
+  };
 
   const handleClearSelection = () => {
     setSelectedFiles([]);
@@ -95,9 +104,17 @@ const FileSelectionForm = (): JSX.Element => {
         );
         setSelectedFiles([]);
         setLoading(false);
+        notifyResult(true);
+      } else {
+        throw mergedPDFBytes;
       }
     } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
       setLoading(false);
+
+      notifyResult(false);
     }
   };
 
@@ -119,10 +136,16 @@ const FileSelectionForm = (): JSX.Element => {
           selectedFiles={selectedFiles}
           handleClearSelection={handleClearSelection}
         />
-        <Box>
+        <Box marginBottom="15px">
           <Typography variant="subtitle1">Carpeta destino: </Typography>
           <Box display="flex" paddingTop=".3rem">
-            <TextField value={outputPath} disabled size="small" fullWidth />
+            <TextField
+              value={outputPath}
+              disabled
+              size="small"
+              fullWidth
+              variant="outlined"
+            />
             <Button
               onClick={handleSelectOutputFolder}
               variant="outlined"
@@ -136,15 +159,14 @@ const FileSelectionForm = (): JSX.Element => {
           </Box>
         </Box>
 
-        <div className="content-container">
-          <button
-            disabled={!(selectedFiles.length > 0) || loading}
-            className="button"
-            type="submit"
-            onClick={handleFileMerge}>
-            Unir archivos
-          </button>
-        </div>
+        <Box display="flex" justifyContent="center">
+          <Button
+            variant="contained"
+            onClick={handleFileMerge}
+            disabled={!(selectedFiles.length > 0 || loading)}>
+            Unir Archivos
+          </Button>
+        </Box>
       </form>
     </Box>
   );
