@@ -56,33 +56,32 @@ const insertImageIntoPdfFile = async (
 const prepareDocuments = async (
   filePaths: string[]
 ): Promise<PDFDocument[] | Error> => {
-  const pdfBytesArray: Buffer[] = [];
-
-  const pdfPaths = filePaths.filter((path) => extname(path) === '.pdf');
-  const imgPaths = filePaths.filter(
-    (path) =>
-      extname(path) === '.jpg' ||
-      extname(path) === '.jpeg' ||
-      extname(path) === '.png'
-  );
 
   try {
-    const pdfFilesBytes = await Promise.all(
-      pdfPaths.map((pdfPath) => readFile(pdfPath))
-    );
-    pdfFilesBytes.forEach((pdfBytes) => pdfBytesArray.push(pdfBytes));
-
-    const imgFilesBytes = await Promise.all(
-      imgPaths.map((imgPath) => insertImageIntoPdfFile(imgPath))
-    );
-    imgFilesBytes.forEach((imgBytes) =>
-      pdfBytesArray.push(Buffer.from(imgBytes))
-    );
-
     const pdfDocumentsArray = await Promise.all(
-      pdfBytesArray.map((pdfBytes) => PDFDocument.load(pdfBytes))
-    );
+      filePaths.map(async (path) => {
+        if (extname(path) === '.pdf') {
+          const pdfFileBytes = await readFile(path);
+          const pdfDoc = await PDFDocument.load(pdfFileBytes);
+          return pdfDoc;
+        }
+        if (
+          extname(path) === '.jpg' ||
+          extname(path) === '.jpeg' ||
+          extname(path) === '.png'
+        ) {
+          const imgFileBytes = await insertImageIntoPdfFile(path);
 
+          if (imgFileBytes instanceof Error) {
+            throw new Error('There was an error processing the images');
+          }
+
+          const pdfDoc = await PDFDocument.load(imgFileBytes);
+          return pdfDoc;
+        }
+        throw new Error('Please provide a .jpg/.jpeg/.png/.pdf file');
+      })
+    );
     return pdfDocumentsArray;
   } catch (error) {
     if (error instanceof Error) {
@@ -110,15 +109,6 @@ const mergePDF = async (filePaths: string[]): Promise<Buffer | Error> => {
   copiedPages.forEach((pages) =>
     pages.forEach((page) => mergedPDF.addPage(page))
   );
-
-  // for (const pdfDoc of pdfDocumentsArray) {
-  //   const copiedPages = await mergedPDF.copyPages(
-  //     pdfDoc,
-  //     pdfDoc.getPageIndices()
-  //   );
-  //   copiedPages.forEach((page) => mergedPDF.addPage(page));
-  // }
-
   return Buffer.from(await mergedPDF.save());
 };
 
