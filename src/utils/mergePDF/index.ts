@@ -56,6 +56,7 @@ const insertImageIntoPdfFile = async (
 const prepareDocuments = async (
   filePaths: string[]
 ): Promise<PDFDocument[] | Error> => {
+
   try {
     const pdfDocumentsArray = await Promise.all(
       filePaths.map(async (path) => {
@@ -81,7 +82,6 @@ const prepareDocuments = async (
         throw new Error('Please provide a .jpg/.jpeg/.png/.pdf file');
       })
     );
-
     return pdfDocumentsArray;
   } catch (error) {
     if (error instanceof Error) {
@@ -109,7 +109,6 @@ const mergePDF = async (filePaths: string[]): Promise<Buffer | Error> => {
   copiedPages.forEach((pages) =>
     pages.forEach((page) => mergedPDF.addPage(page))
   );
-
   return Buffer.from(await mergedPDF.save());
 };
 
