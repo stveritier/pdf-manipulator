@@ -14,7 +14,7 @@ import { remote } from 'electron';
 import { SelectedFilesList } from '../SelectedFileList';
 import { LoadingScreen } from '../LoadingScreen';
 import { mergePDF } from '../../../utils/mergePDF';
-import DataController from '../../../utils/data-controller';
+import { saveFileToDisk } from '../../../utils/saveFileToDisk';
 
 const FileSelectionForm = (): JSX.Element => {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
@@ -96,11 +96,7 @@ const FileSelectionForm = (): JSX.Element => {
     try {
       const mergedPDFBytes = await mergePDF(selectedFiles);
       if (!(mergedPDFBytes instanceof Error)) {
-        await DataController.saveFileToDisk(
-          outputPath,
-          fileName,
-          mergedPDFBytes
-        );
+        await saveFileToDisk(outputPath, fileName, mergedPDFBytes);
         setSelectedFiles([]);
         setLoading(false);
         notifyResult(true);
