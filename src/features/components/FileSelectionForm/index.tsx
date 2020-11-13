@@ -13,8 +13,8 @@ import { readdirSync } from 'fs';
 import { remote } from 'electron';
 import { SelectedFilesList } from '../SelectedFileList';
 import { LoadingScreen } from '../LoadingScreen';
-import PDFController from '../../../utils/pdf-controller';
-import DataController from '../../../utils/data-controller';
+import { mergePDF } from '../../../utils/mergePDF';
+import { saveFileToDisk } from '../../../utils/saveFileToDisk';
 
 const FileSelectionForm = (): JSX.Element => {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
@@ -94,14 +94,9 @@ const FileSelectionForm = (): JSX.Element => {
   const handleFileMerge = async () => {
     setLoading(true);
     try {
-      const pdfController = PDFController.Instance;
-      const mergedPDFBytes = await pdfController.mergePDF(selectedFiles);
+      const mergedPDFBytes = await mergePDF(selectedFiles);
       if (!(mergedPDFBytes instanceof Error)) {
-        await DataController.saveFileToDisk(
-          outputPath,
-          fileName,
-          mergedPDFBytes
-        );
+        await saveFileToDisk(outputPath, fileName, mergedPDFBytes);
         setSelectedFiles([]);
         setLoading(false);
         notifyResult(true);
