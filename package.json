@@ -2,6 +2,7 @@
   "name": "pdf-manipulator",
   "version": "0.1.0",
   "license": "MIT",
+  "author": "Santiago Veritier"
   "build": {
     "appId": "pdf-manipulator",
     "win": {
