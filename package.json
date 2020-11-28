@@ -1,14 +1,44 @@
 {
   "name": "pdf-manipulator",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "license": "MIT",
-  "author": "Santiago Veritier",
+  "author": {
+    "name": "Santiago Veritier",
+    "email": "stveritier@gmail.com"
+  },
   "build": {
+    "productName": "PDF Manipulator",
     "appId": "pdf-manipulator",
-    "win": {
+    "directories": {
+      "buildResources": "build"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "asar": true,
+      "icon": "build/icons/pdf-icon.ico",
       "target": [
-        "portable"
+        "AppImage",
+        "deb"
       ]
+    },
+    "win": {
+      "asar": false,
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "icon": "build/icons/pdf-icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icons/pdf-icon.ico",
+      "installerHeaderIcon": "build/icons/pdf-icon.ico"
     }
   },
   "scripts": {
