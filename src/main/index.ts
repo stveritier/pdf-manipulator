@@ -34,7 +34,7 @@ function createMainWindow() {
       .loadURL(
         formatUrl({
           pathname: path.join(__dirname, 'index.html'),
-          protocol: 'file',
+          protocol: 'file:',
           slashes: true,
         })
       )
